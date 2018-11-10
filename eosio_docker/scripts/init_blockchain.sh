@@ -55,7 +55,14 @@ echo "=== deploy smart contract ==="
 # $2 account holder name of the smart contract
 # $3 wallet for unlock the account
 # $4 password for unlocking the wallet
-deploy_contract.sh notechain eblockacc eblockwal $(cat eblock_wallet_password.txt)
+for file in eosio_docker/contracts/*/ ; do 
+  if [[ -d "$file" && ! -L "$file" ]]; then
+    contract="$(basename "$file")"
+    deploy_contract.sh contract eblockacc eblockwal $(cat eblock_wallet_password.txt)
+    $cleos set contract account "$contract" -p account@active
+  fi; 
+done
+# deploy_contract.sh notechain eblockacc eblockwal $(cat eblock_wallet_password.txt)
 
 echo "=== create user accounts ==="
 # script for create data into blockchain
