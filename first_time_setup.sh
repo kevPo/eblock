@@ -20,13 +20,13 @@ if [ ! -x "$(command -v docker)" ] ||
 fi
 
 # download eosio/eos-dev:v1.4.2 image
-echo "=== pull eosio/eos-dev image v1.4.2 from docker hub ==="
-docker pull eosio/eos-dev:v1.4.2
+# echo "=== pull eosio/eos-dev image v1.4.2 from docker hub ==="
+# docker pull eosio/eos-dev:v1.4.2
 
 # force remove the perivous container if any
 # create a clean data folder in eosio_docker to preserve block data
 echo "=== setup/reset data for eosio_docker ==="
-docker stop eosio_notechain_container || true && docker rm --force eosio_notechain_container || true
+docker stop eblock_container || true && docker rm --force eblock_container || true
 rm -rf "./eosio_docker/data"
 mkdir -p "./eosio_docker/data"
 
