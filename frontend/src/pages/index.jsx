@@ -6,6 +6,7 @@ import {
 
 import Home from '../components/home';
 import Charging from '../components/charging';
+import Receipts from '../components/receipts';
 import Navbar from '../components/navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
@@ -35,6 +36,7 @@ class Index extends Component {
         <Router>
           <div>
             <Route exact path="/" component={Home}/>
+            <Route exact path="/receipts" component={Receipts}/>
             <Route path="/charging/:id" component={Charging}/>
           </div>
         </Router>

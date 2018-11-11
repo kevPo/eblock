@@ -49,8 +49,8 @@ class Charging extends Component {
 
   async stopCharging(location) {
     let user = accounts.find((account) => account.name === 'bob');
-    // let owner = accounts.find((account) => account.name === location.owner);
-    let privateKey = user.privateKey;
+    let owner = accounts.find((account) => account.name == location.owner);
+    let privateKey = owner.privateKey;
 
     // eosjs function call: connect to the blockchain
     const rpc = new JsonRpc(endpoint);
@@ -63,7 +63,7 @@ class Charging extends Component {
           account: "locations",
           name: 'endtrans',
           authorization: [{
-            actor: 'bob',
+            actor: location.owner,
             permission: 'active',
           }],
           data: {
@@ -85,6 +85,47 @@ class Charging extends Component {
       if (e instanceof RpcError) {
         console.log(JSON.stringify(e.json, null, 2));
       }
+    }
+
+    this.transferFunds(location);
+  }
+
+  async transferFunds(location) {
+    console.log('start transferring funds');
+    let user = accounts.find((account) => account.name === 'bob');
+    let privateKey = user.privateKey;
+
+    // eosjs function call: connect to the blockchain
+    const rpc = new JsonRpc(endpoint);
+    const signatureProvider = new JsSignatureProvider([privateKey]);
+    const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
+    console.log(location);
+
+    const result = await api.transact({
+      actions: [{
+        account: "users",
+        name: 'pay',
+        authorization: [{
+          actor: user.name,
+          permission: 'active',
+        }],
+        data: {
+          payer: user.name,
+          receiver: location.owner,
+          token_amount: 20
+        },
+      }]
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30,
+    });
+
+    console.log(result);
+    this.getTable();
+  } catch (e) {
+    console.log('Caught exception: ' + e);
+    if (e instanceof RpcError) {
+      console.log(JSON.stringify(e.json, null, 2));
     }
   }
 

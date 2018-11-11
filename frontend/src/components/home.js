@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Api, JsonRpc, RpcError, JsSignatureProvider } from 'eosjs'; // https://github.com/EOSIO/eosjs
-import { TextDecoder, TextEncoder } from 'text-encoding';
 
 import ChargingStations from "./chargingStations";
 import MapContainer from "./mapContainer";
@@ -70,7 +69,8 @@ class Home extends Component {
         kilowatts: Math.round(location.current_charge),
         rating: this.getRandomTo(5),
         image: `https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-${this.getRandomTo(4)}.jpg`,
-        chargerType: 'supercharger'
+        chargerType: 'supercharger',
+        rate: location.rate_per_kilowatt
       }
     });
     console.log(localStations);
