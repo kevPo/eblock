@@ -23,11 +23,11 @@ namespace eblock {
                 EOSLIB_SERIALIZE(user, (account)(first_name)(last_name)(address)(has_charge_locations));
             };
 
-            ACTION adduser(name account, string first_name, string last_name, string address);
+            ACTION add(name account, string first_name, string last_name, string address);
             ACTION pay(name account, name recipient , double amount);
 
             typedef eosio::multi_index<"users"_n, user> user_table;
     };
 
-    EOSIO_DISPATCH(users, (adduser)(pay))
+    EOSIO_DISPATCH(users, (add)(pay))
 }
