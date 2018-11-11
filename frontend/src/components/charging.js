@@ -90,8 +90,8 @@ class Charging extends Component {
       }
     }
 
+    this.transferFunds(location);
     this.setState({stopCharging: true})
-    // this.transferFunds(location);
   }
 
   async transferFunds(location) {
@@ -105,18 +105,21 @@ class Charging extends Component {
     const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
     console.log(location);
 
+    console.log("########");
+    console.log(user.name);
+    console.log(location.owner);
     const result = await api.transact({
       actions: [{
-        account: "users",
+        account: 'users',
         name: 'pay',
         authorization: [{
           actor: user.name,
           permission: 'active',
         }],
         data: {
-          payer: user.name,
-          receiver: location.owner,
-          token_amount: 20
+          account: user.name,
+          recipient: location.owner,
+          amount: 200000.00
         },
       }]
     }, {
@@ -125,7 +128,6 @@ class Charging extends Component {
     });
 
     console.log(result);
-    this.getTable();
   } catch (e) {
     console.log('Caught exception: ' + e);
     if (e instanceof RpcError) {
@@ -133,7 +135,7 @@ class Charging extends Component {
     }
   }
 
-  async startTransaction() {
+  async startTransaction(locationId) {
     let user = accounts.find((account) => account.name === 'bob');
     let privateKey = user.privateKey;
 
@@ -146,25 +148,22 @@ class Charging extends Component {
       const result = await api.transact({
         actions: [{
           account: "locations",
-          name: 'endtrans',
+          name: 'inittrans',
           authorization: [{
             actor: user.name,
             permission: 'active',
           }],
           data: {
             owner: user.name,
-            buyer: user.name,
-            location_id: this.state.locationId,
-            actual_amount: 20
+            location_id: locationId,
           },
         }]
       }, {
         blocksBehind: 3,
         expireSeconds: 30,
       });
+       console.log(result);
 
-      console.log(result);
-      this.getTable();
     } catch (e) {
       console.log('Caught exception: ' + e);
       if (e instanceof RpcError) {
@@ -196,7 +195,7 @@ class Charging extends Component {
     const battery = '';
 
     if (stopCharging)
-    return <Redirect to={`/receipts/${location.key}`} push={true} />;
+    return <Redirect to={`/receipts`} push={true} />;
 
     return (
       <Grid container height="500" direction="column" justify="center" alignItems="center">

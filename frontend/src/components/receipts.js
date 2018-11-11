@@ -87,7 +87,7 @@ class Receipts extends Component {
             component="h2"
             styles={{fontWeight: 'bold', textAlign: 'center'}}
           >
-            Transactions
+            Completed Transaction
           </Typography>
         </Grid>
         <Grid item xs={6} >
