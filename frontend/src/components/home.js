@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Navbar from '../components/navbar';
 import ChargingStation from './chargingStation';
+import MapContainer from './mapContainer';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -23,6 +24,9 @@ const styles = theme => ({
   header: {
     padding: theme.spacing.unit * 2,
     fontWeight: 800
+  },
+  map: {
+    position: 'relative'
   }
 });
 
@@ -68,16 +72,14 @@ class Home extends Component {
         <Navbar />
         <div className={classes.root}>
           <Grid container spacing={24}>
-            <Grid item xs={12} >
+            <Grid item xs={8} >
               <Typography variant="title" className={classes.header}>
                 Charging stations near: {location.lat}, {location.lng}
               </Typography>
-            </Grid>
-            <Grid item xs={8}>
               <ChargingStation />
             </Grid>
             <Grid item xs={4}>
-              <Paper className={classes.paper}>Swap this out with map</Paper>
+              <MapContainer className={classes.map}/>
             </Grid>
           </Grid>
         </div>
