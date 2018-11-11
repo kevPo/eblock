@@ -1,5 +1,6 @@
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/asset.hpp>
+#include "eosio.token.hpp"
 
 namespace eblock {    
     using namespace eosio;
