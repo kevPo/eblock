@@ -43,12 +43,12 @@ cleos wallet create -n eblockwal --to-console | tail -1 | sed -e 's/^"//' -e 's/
 cleos wallet create_key -n eblockwal | tail -1 | sed -r 's/^.*"(.*)"$/\1/' > eblock_wallet_owner_key.txt
 cleos wallet create_key -n eblockwal | tail -1 | sed -r 's/^.*"(.*)"$/\1/' > eblock_wallet_active_key.txt
 
-# * Replace "notechainwal" by your own wallet name when you start your own project
-
-# create account for notechainacc with above wallet's public keys
 cleos create account eosio eblockacc $(cat eblock_wallet_owner_key.txt) $(cat eblock_wallet_active_key.txt)
 
-# * Replace "notechainacc" by your own account name when you start your own project
+cleos wallet create_key -n eblockwal | tail -1 | sed -r 's/^.*"(.*)"$/\1/' > token_owner_key.txt
+cleos wallet create_key -n eblockwal | tail -1 | sed -r 's/^.*"(.*)"$/\1/' > token_active_key.txt
+
+cleos create account eosio eosio.token $(cat token_owner_key.txt) $(cat token_active_key.txt)
 
 echo "=== deploy smart contract ==="
 # $1 smart contract name
@@ -59,16 +59,17 @@ for file in eosio_docker/contracts/*/ ; do
   if [[ -d "$file" && ! -L "$file" ]]; then
     contract="$(basename "$file")"
     deploy_contract.sh contract eblockacc eblockwal $(cat eblock_wallet_password.txt)
-    $cleos set contract account "$contract" -p account@active
   fi; 
 done
-# deploy_contract.sh notechain eblockacc eblockwal $(cat eblock_wallet_password.txt)
+
+cleos set contract eosio.token /contracts/eosio.token -p eosio.token
+
+echo "=== create token === "
+cleos push action eosio.token create '{"issuer":"eosio", "maximum_supply":"1000000000.0000 EBL"}' -p eosio.token
 
 echo "=== create user accounts ==="
-# script for create data into blockchain
 create_accounts.sh
 
-# * Replace the script with different form of data that you would pushed into the blockchain when you start your own project
 
 echo "=== end of setup blockchain accounts and smart contract ==="
 # create a file to indicate the blockchain has been initialized
