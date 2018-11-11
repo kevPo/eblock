@@ -34,9 +34,9 @@ const styles = theme => ({
     maxWidth: 600,
     padding: theme.spacing.unit * 2,
   },
-  image: {
-    width: 128,
-    height: 128,
+  media: {
+    height: 0,
+    paddingTop: "56.25%" // 16:9
   },
   img: {
     margin: 'auto',
@@ -74,23 +74,23 @@ class Receipts extends Component {
         kilowatts: 125,
         rating: 4,
         chargerType: "supercharger",
-        image:
-          "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-1.jpg"
+        image: "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-1.jpg"
       };
 
     return (
-      <Grid container justify="center" styles={{paddingTop: '20px'}}>
-        <Grid item xs={12}>
-          <Typography
-            gutterBottom
-            variant="headline"
-            component="h2"
-            styles={{fontWeight: 'bold', textAlign: 'center'}}
-          >
-            Completed Transaction
-          </Typography>
-        </Grid>
-        <Grid item xs={6} >
+      <div>
+        <Grid container justify="center" style={{padding: '20px'}}>
+          <Grid item xs={12}>
+            <Typography
+              gutterBottom
+              variant="headline"
+              component="h1"
+              style={{fontWeight: 'bold', textAlign: 'center'}}
+            >
+              Completed Transaction
+            </Typography>
+          </Grid>
+          <Grid item xs={5} >
             <Card className={classes.card}>
               <CardMedia
                 className={classes.media}
@@ -99,23 +99,39 @@ class Receipts extends Component {
               />
               <CardContent >
                 <Grid container alignItems="center">
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <Typography
                       gutterBottom
-                      variant="headline"
+                      variant="title"
                       className={classes.largeHeading}
                       component="h2"
                     >
                       {station.name}
                     </Typography>
+                    <Typography
+                      gutterBottom
+                      variant="button"
+                      component="p"
+                    >
+                      {new Date().toLocaleString()}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography
+                        gutterBottom
+                        variant="title"
+                        component="h1"
+                        style={{fontSize: '4em'}}
+                      >
+                        4.5 EOS
+                      </Typography>
                   </Grid>
                 </Grid>
               </CardContent>
             </Card>
           </Grid> 
         </Grid>
-        
-      
+      </div>
       
     );
   }
