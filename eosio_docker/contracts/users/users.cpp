@@ -33,5 +33,6 @@ namespace eblock {
 
         //TODO: execute token transactions
         //cleos push action eosio.token transfer '[ "alice", "bob", "25.0000 SYS", "m" ]' -p alice@active
+        //cleos push action users pay '["alice", "bob", "25"]' -p alice@activce
     }
 }
