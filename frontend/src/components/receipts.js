@@ -5,11 +5,13 @@ import Timer from "./timer";
 
 
 import { withStyles } from "@material-ui/core/styles";
-import "./charging.css"
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
 
 // eosio endpoint
 const endpoint = "http://localhost:8888";
@@ -58,73 +60,62 @@ class Receipts extends Component {
   componentDidMount () {
     var userName = this.props.match.params.id;
     let user = accounts.find((account) => account.name == userName);
-
-    
   }
 
   render() {
     const { classes } = this.props;
     const { location } = this.state;
+    const station =  {
+        id: 1,
+        name: "The Hook Up",
+        lat: 37.778519,
+        lng: -122.415838,
+        available: true,
+        kilowatts: 125,
+        rating: 4,
+        chargerType: "supercharger",
+        image:
+          "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-1.jpg"
+      };
 
     return (
-      // <Grid width="100%" justify="center" className={classes.root}>
-      //   <Paper >
-      //     <Grid container spacing={16}>
-      //       <Grid item>
-      //         <ButtonBase className={classes.image}>
-      //           <img className={classes.img} alt="complex" src="/static/images/grid/complex.jpg" />
-      //         </ButtonBase>
-      //       </Grid>
-      //       <Grid item xs={12} sm container>
-      //         <Grid item xs container direction="column" spacing={16}>
-      //           <Grid item xs>
-      //             <Typography gutterBottom variant="subheading">
-      //               Standard license
-      //             </Typography>
-      //             <Typography gutterBottom>Full resolution 1920x1080 • JPEG</Typography>
-      //             <Typography color="textSecondary">ID: 1030114</Typography>
-      //           </Grid>
-      //           <Grid item>
-      //             <Typography style={{ cursor: 'pointer' }}>Remove</Typography>
-      //           </Grid>
-      //         </Grid>
-      //         <Grid item>
-      //           <Typography variant="subheading">$19.00</Typography>
-      //         </Grid>
-      //       </Grid>
-      //     </Grid>
-      //   </Paper>
-      // </Grid>
-      <Grid container height="500" direction="column" justify="center" alignItems="center">
-        <Grid style={{paddingTop: '100px'}} item container justify="center" alignItems="flex-end">
-        <Paper >
-           <Grid container spacing={16}>
-             <Grid item>
-               <ButtonBase className={classes.image}>
-                 <img className={classes.img} alt="complex" src="/static/images/grid/complex.jpg" />
-               </ButtonBase>
-             </Grid>
-             <Grid item xs={12} sm container>
-               <Grid item xs container direction="column" spacing={16}>
-                 <Grid item xs>
-                   <Typography gutterBottom variant="subheading">
-                     Standard license
-                   </Typography>
-                   <Typography gutterBottom>Full resolution 1920x1080 • JPEG</Typography>
-                   <Typography color="textSecondary">ID: 1030114</Typography>
-                 </Grid>
-                 <Grid item>
-                   <Typography style={{ cursor: 'pointer' }}>Remove</Typography>
-                 </Grid>
-               </Grid>
-               <Grid item>
-                 <Typography variant="subheading">$19.00</Typography>
-               </Grid>
-             </Grid>
-           </Grid>
-         </Paper>
+      <Grid container justify="center" styles={{paddingTop: '20px'}}>
+        <Grid item xs={12}>
+          <Typography
+            gutterBottom
+            variant="headline"
+            component="h2"
+            styles={{fontWeight: 'bold', textAlign: 'center'}}
+          >
+            Transactions
+          </Typography>
         </Grid>
-      </Grid>
+        <Grid item xs={6} >
+            <Card className={classes.card}>
+              <CardMedia
+                className={classes.media}
+                image={station.image}
+                title={station.name}
+              />
+              <CardContent >
+                <Grid container alignItems="center">
+                  <Grid item xs={12}>
+                    <Typography
+                      gutterBottom
+                      variant="headline"
+                      className={classes.largeHeading}
+                      component="h2"
+                    >
+                      {station.name}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid> 
+        </Grid>
+        
+      
       
     );
   }

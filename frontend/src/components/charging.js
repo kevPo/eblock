@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Api, JsonRpc, RpcError, JsSignatureProvider } from 'eosjs'; // https://github.com/EOSIO/eosjs
 import { TextDecoder, TextEncoder } from 'text-encoding';
 import Timer from "./timer";
+import { Redirect } from 'react-router';
 
 
 import { withStyles } from "@material-ui/core/styles";
@@ -9,6 +10,8 @@ import "./charging.css"
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import BatteryCharging20 from "@material-ui/icons/BatteryCharging20";
+import Typography from "@material-ui/core/Typography";
+
 import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -87,7 +90,8 @@ class Charging extends Component {
       }
     }
 
-    this.transferFunds(location);
+    this.setState({stopCharging: true})
+    // this.transferFunds(location);
   }
 
   async transferFunds(location) {
@@ -177,7 +181,7 @@ class Charging extends Component {
       "scope": "locations",  // scope of the table
       "table": "locations",    // name of the table as specified by the contract abi
       "limit": 100,
-    }).then(result => this.setState({location: result.rows.find((location) => location.key === locationId)}));
+    }).then(result => this.setState({location: result.rows.find((location) => location.key === locationId), stopCharging: false}));
   }
 
   componentDidMount () {
@@ -188,21 +192,26 @@ class Charging extends Component {
 
   render() {
     const { classes } = this.props;
-    const { location } = this.state;
+    const { location, stopCharging } = this.state;
     const battery = '';
+
+    if (stopCharging)
+    return <Redirect to={`/receipts/${location.key}`} push={true} />;
 
     return (
       <Grid container height="500" direction="column" justify="center" alignItems="center">
-        <Grid style={{paddingTop: '100px'}} item container justify="center" alignItems="flex-end">
+        <Grid item >
+          <Typography style={{paddingTop: '100px', fontSize: '3em'}} variant="title" fontWeight="bold" component="h1">
+            {location.name}
+          </Typography>
+        </Grid>
+        <Grid style={{paddingTop: '20px'}} item container justify="center" alignItems="flex-end">
           <BatteryCharging20 style={{fontSize: '20em', color: '#30E877'}} />
         </Grid>
         <Grid item >
           <Button variant="outlined" size="medium" color="primary" onClick={() => this.stopCharging(location)}>
             Stop Charging
           </Button>
-        </Grid>
-        <Grid item>
-          {/* <Timer /> */}
         </Grid>
       </Grid>
     );
