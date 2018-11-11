@@ -1,7 +1,7 @@
-#include <Users/Users.hpp>
+#include <users/users.hpp>
 
 namespace eblock {
-    void Users::adduser(name account, string first_name, string last_name, string address) {
+    void users::adduser(name account, string first_name, string last_name, string address) {
         require_auth(account);
         user_table users(_code, _code.value);
         
@@ -17,7 +17,7 @@ namespace eblock {
         });
     }
 
-    void Users::pay(name payer, name receiver, double token_amount) {
+    void users::pay(name payer, name receiver, double token_amount) {
         require_auth(payer);
 
         asset to_transfer = asset(token_amount, symbol(symbol_code("EBL"), 4));

@@ -55,10 +55,13 @@ echo "=== deploy smart contract ==="
 # $2 account holder name of the smart contract
 # $3 wallet for unlock the account
 # $4 password for unlocking the wallet
-for file in eosio_docker/contracts/*/ ; do 
+for file in contracts/*/ ; do 
   if [[ -d "$file" && ! -L "$file" ]]; then
     contract="$(basename "$file")"
-    deploy_contract.sh contract eblockacc eblockwal $(cat eblock_wallet_password.txt)
+    cleos wallet create_key -n eblockwal | tail -1 | sed -r 's/^.*"(.*)"$/\1/' > ""$contract"_owner_key.txt"
+    cleos wallet create_key -n eblockwal | tail -1 | sed -r 's/^.*"(.*)"$/\1/' > ""$contract"_active_key.txt"
+    cleos create account eosio "$contract" $(cat ""$contract"_owner_key.txt") $(cat ""$contract"_active_key.txt")
+    deploy_contract.sh "$contract" "$contract" eblockwal $(cat eblock_wallet_password.txt)
   fi; 
 done
 

@@ -1,7 +1,7 @@
-#include <Locations/Locations.hpp>
+#include <locations/locations.hpp>
 
 namespace eblock {
-    void Locations::addloc(name id, name owner, string name, double latitude, double longitude, string zip, double max_charge) {
+    void locations::addloc(name id, name owner, string name, double latitude, double longitude, string zip, double max_charge) {
         require_auth(owner);
         location_table locations(_code, _code.value);
         
@@ -21,7 +21,7 @@ namespace eblock {
         });
     }
 
-    void Locations::updatecharge(name owner, name location_id, double new_charge_amount) {
+    void locations::updatecharge(name owner, name location_id, double new_charge_amount) {
         require_auth(owner);
         location_table locations(_code, _code.value);
         
@@ -33,7 +33,7 @@ namespace eblock {
         });
     }
 
-    void Locations::inittrans(name owner, name location_id) {
+    void locations::inittrans(name owner, name location_id) {
         require_auth(owner);
         location_table locations(_code, _code.value);
         
@@ -49,7 +49,7 @@ namespace eblock {
         // implement standard payment authorization procedures
     }
 
-    void Locations::endtrans(name owner, name buyer, name location_id, double actual_amount) {
+    void locations::endtrans(name owner, name buyer, name location_id, double actual_amount) {
         require_auth(owner);
         location_table locations(_code, _code.value);
         
@@ -69,7 +69,7 @@ namespace eblock {
         //Implement reverse escrow based on inittrans action
     }
 
-    void Locations::pay_users(name payer, name receiver, double token_amount) {
+    void locations::pay_users(name payer, name receiver, double token_amount) {
         action pay_users = action(
         permission_level{payer,"active"_n},
         "eblockacc"_n,

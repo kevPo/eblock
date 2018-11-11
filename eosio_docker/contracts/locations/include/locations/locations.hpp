@@ -4,11 +4,11 @@ namespace eblock {
     using namespace eosio;
     using namespace std;
 
-    CONTRACT Locations : public contract {
+    CONTRACT locations : public contract {
         using contract::contract;
 
         public:
-            Locations(name receiver, name code, datastream<const char*> ds): contract(receiver, code, ds) {}
+            locations(name receiver, name code, datastream<const char*> ds): contract(receiver, code, ds) {}
 
             TABLE location {
                 name key;
@@ -42,5 +42,5 @@ namespace eblock {
             void pay_users(name payer, name receiver, double amount);
     };
 
-    EOSIO_DISPATCH(Locations, (addloc)(updatecharge)(inittrans)(endtrans))
+    EOSIO_DISPATCH(locations, (addloc)(updatecharge)(inittrans)(endtrans))
 }

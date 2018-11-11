@@ -5,11 +5,11 @@ namespace eblock {
     using namespace eosio;
     using namespace std;
 
-    CONTRACT Users : public contract {
+    CONTRACT users : public contract {
         using contract::contract;
 
         public:
-            Users(name receiver, name code, datastream<const char*> ds): contract(receiver, code, ds) {}
+            users(name receiver, name code, datastream<const char*> ds): contract(receiver, code, ds) {}
 
             TABLE user { 
                 name account;     
@@ -29,5 +29,5 @@ namespace eblock {
             typedef eosio::multi_index<"users"_n, user> user_table;
     };
 
-    EOSIO_DISPATCH(Users, (adduser)(pay))
+    EOSIO_DISPATCH(users, (adduser)(pay))
 }
