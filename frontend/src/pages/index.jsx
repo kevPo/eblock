@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Api, JsonRpc, RpcError, JsSignatureProvider } from 'eosjs'; // https://github.com/EOSIO/eosjs
 import { TextDecoder, TextEncoder } from 'text-encoding';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
 
+import Home from '../components/home';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // material-ui dependencies
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+
 
 // eosio endpoint
 const endpoint = "http://localhost:8888";
@@ -47,7 +49,23 @@ const styles = theme => ({
     marginBottom: 0,
   },
 });
-
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: '#e83a30',
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      light: '#0066ff',
+      main: '#0044ff',
+      // dark: will be calculated from palette.secondary.main,
+      contrastText: '#ffcc00',
+    },
+    // error: will use the default color
+  },
+});
 // Index component
 class Index extends Component {
 
@@ -158,55 +176,64 @@ class Index extends Component {
       generateCard(i, row.timestamp, row.user, row.note));
 
     return (
-      <div>
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <Typography variant="title" color="inherit">
-              Note Chain
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        {noteCards}
-        <Paper className={classes.paper}>
-          <form onSubmit={this.handleFormEvent}>
-            <TextField
-              name="account"
-              autoComplete="off"
-              label="Account"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="privateKey"
-              autoComplete="off"
-              label="Private key"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="note"
-              autoComplete="off"
-              label="Note (Optional)"
-              margin="normal"
-              multiline
-              rows="10"
-              fullWidth
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.formButton}
-              type="submit">
-              Add / Update note
-            </Button>
-          </form>
-        </Paper>
-        <pre className={classes.pre}>
-          Below is a list of pre-created accounts information for add/update note:
-          <br/><br/>
-          accounts = { JSON.stringify(accounts, null, 2) }
-        </pre>
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <div>
+            <Route exact path="/" component={Home}/>
+            {/* <Route path="/home" component={Home}/> */}
+          </div>
+        </Router>
+      </MuiThemeProvider>
+      
+      // <div>
+      //   <AppBar position="static" color="default">
+      //     <Toolbar>
+      //       <Typography variant="title" color="inherit">
+      //         Note Chain
+      //       </Typography>
+      //     </Toolbar>
+      //   </AppBar>
+      //   {noteCards}
+      //   <Paper className={classes.paper}>
+      //     <form onSubmit={this.handleFormEvent}>
+      //       <TextField
+      //         name="account"
+      //         autoComplete="off"
+      //         label="Account"
+      //         margin="normal"
+      //         fullWidth
+      //       />
+      //       <TextField
+      //         name="privateKey"
+      //         autoComplete="off"
+      //         label="Private key"
+      //         margin="normal"
+      //         fullWidth
+      //       />
+      //       <TextField
+      //         name="note"
+      //         autoComplete="off"
+      //         label="Note (Optional)"
+      //         margin="normal"
+      //         multiline
+      //         rows="10"
+      //         fullWidth
+      //       />
+      //       <Button
+      //         variant="contained"
+      //         color="primary"
+      //         className={classes.formButton}
+      //         type="submit">
+      //         Add / Update note
+      //       </Button>
+      //     </form>
+      //   </Paper>
+      //   <pre className={classes.pre}>
+      //     Below is a list of pre-created accounts information for add/update note:
+      //     <br/><br/>
+      //     accounts = { JSON.stringify(accounts, null, 2) }
+      //   </pre>
+      // </div>
     );
   }
 
