@@ -63,17 +63,17 @@ class Home extends Component {
     let localStations = rawLocations.map((location) => {
       return {
         id: location.key,
-        available: location.in_action,
         lng: location.longitude,
         lat: location.latitude,
         name: location.name,
-        available: !!location.in_action,
+        available: !location.in_use,
         kilowatts: Math.round(location.current_charge),
         rating: this.getRandomTo(5),
         image: `https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-${this.getRandomTo(4)}.jpg`,
         chargerType: 'supercharger'
       }
     });
+    console.log(localStations);
     this.setState({ localStations })
   }
 

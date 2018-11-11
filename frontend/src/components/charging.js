@@ -46,11 +46,7 @@ class Charging extends Component {
     };
   }
 
-  stopCharging() {
-    console.log('hi');
-  }
-
-  async startTransaction(locationId) {
+  async stopCharging(locationId) {
     let user = accounts.find((account) => account.name === 'bob');
     let privateKey = user.privateKey;
 
@@ -63,7 +59,7 @@ class Charging extends Component {
       const result = await api.transact({
         actions: [{
           account: "locations",
-          name: 'inittrans',
+          name: 'endtrans',
           authorization: [{
             actor: user.name,
             permission: 'active',
@@ -88,9 +84,50 @@ class Charging extends Component {
     }
   }
 
+  async startTransaction() {
+    let user = accounts.find((account) => account.name === 'bob');
+    let privateKey = user.privateKey;
+
+    // eosjs function call: connect to the blockchain
+    const rpc = new JsonRpc(endpoint);
+    const signatureProvider = new JsSignatureProvider([privateKey]);
+    const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
+
+    try {
+      const result = await api.transact({
+        actions: [{
+          account: "locations",
+          name: 'endtrans',
+          authorization: [{
+            actor: user.name,
+            permission: 'active',
+          }],
+          data: {
+            owner: user.name,
+            buyer: user.name,
+            location_id: this.state.locationId,
+            actual_amount: 20
+          },
+        }]
+      }, {
+        blocksBehind: 3,
+        expireSeconds: 30,
+      });
+
+      console.log(result);
+      this.getTable();
+    } catch (e) {
+      console.log('Caught exception: ' + e);
+      if (e instanceof RpcError) {
+        console.log(JSON.stringify(e.json, null, 2));
+      }
+    }
+  }
+
   componentDidMount () {
     // from the path `/inbox/messages/:id`
     var locationId = this.props.match.params.id;
+    this.setState({locationId});
     this.startTransaction(locationId);
   }
 
