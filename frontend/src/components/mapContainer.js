@@ -39,8 +39,8 @@ export class MapContainer extends Component {
           position={{lat: location.lat, lng: location.lng}}
           icon={{
             url: "https://res.cloudinary.com/kevpo/image/upload/v1541931370/ev_charger.png",
-            anchor: new google.maps.Point(32,32),
-            scaledSize: new google.maps.Size(40,40)
+            anchor: new google.maps.Point(30,30),
+            scaledSize: new google.maps.Size(30,30)
         }}/>
     });
 
@@ -66,5 +66,6 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'xxxx'
+  apiKey: 'AIzaSyAnHfFqtmvHP0s7AT67brFz9lNVTR-DzPs'
+  // apiKey: 'xxxx'
 })(MapContainer);
