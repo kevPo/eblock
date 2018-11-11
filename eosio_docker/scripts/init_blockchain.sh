@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-set -o errexit
+# set -o errexit
 
-echo "=== setup blockchain accounts and smart contract ==="
+# echo "=== setup blockchain accounts and smart contract ==="
 
-# set PATH
-PATH="$PATH:/opt/eosio/bin:/opt/eosio/bin/scripts"
+# # set PATH
+# PATH="$PATH:/opt/eosio/bin:/opt/eosio/bin/scripts"
 
-set -m
+# set -m
 
 echo "=== install EOSIO.CDT (Contract Development Toolkit) ==="
 apt install /opt/eosio/bin/scripts/eosio.cdt-1.3.2.x86_64.deb
