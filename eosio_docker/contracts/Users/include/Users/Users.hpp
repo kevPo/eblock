@@ -23,6 +23,7 @@ namespace eblock {
             };
 
             ACTION add(name account, string first_name, string last_name, string address);
+            ACTION pay(name account, name recipient , double amount);
 
             typedef eosio::multi_index<"users"_n, user> user_table;
     };

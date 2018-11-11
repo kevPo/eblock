@@ -16,4 +16,11 @@ namespace eblock {
             user.has_charge_locations = false;
         });
     }
+
+    // ACTION pay(name payer, name receiver, double amount);
+    void Users::pay(name payer, name receiver, double amount) {
+        require_auth(payer);
+
+        //TODO: execute token transactions
+    }
 }
