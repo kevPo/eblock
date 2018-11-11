@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Redirect } from 'react-router'
 
 import { withStyles } from "@material-ui/core/styles";
@@ -13,6 +12,7 @@ import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Grid from "@material-ui/core/Grid";
 import EvStationIcon from "@material-ui/icons/EvStation";
+import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
 
 const styles = theme => ({
   card: {
@@ -59,9 +59,10 @@ class ChargingStation extends Component {
     const { classes } = this.props;
     const { charging } = this.state
     // TODO: Get this data in the ledger
-    let activityStatus = this.props.station.available ? 'Available for the last 4 hours' : 'Unavailable for the last 2 hours'
+    let activityStatus = this.props.station.available ? 'Available for the last 4 hours' : 'In use for the last 2 hours'
     let stars = [];
     let emptyStars = [];
+    let status = [];
 
     for (var i=0; i<this.props.station.rating; i++) {
       stars.push(<StarIcon className={classes.rating} />);
@@ -72,8 +73,13 @@ class ChargingStation extends Component {
     }
 
     if (charging) {
-      return <Redirect to={`/charging/${this.props.station.id}`} push={true} />
+      return <Redirect to={`/charging/${this.props.station.id}`} push={true} />;
     }
+
+    if (this.props.station.available)
+      status.push(<EvStationIcon style={{ color: "#26d269", fontSize: "3em" }}/>);
+    else
+      status.push(<DirectionsCarIcon style={{ color: "#e83a30", fontSize: "2.5em" }}/>);
 
     return (
       <div>
@@ -110,9 +116,8 @@ class ChargingStation extends Component {
               <Grid item xs={2} container justify="flex-end">
                 <Grid item container alignItems="center" direction="column">
                   <Grid item>
-                    <EvStationIcon
-                      style={{ color: this.props.station.available ? "#26d269" : "#cccccc", fontSize: "3em" }}
-                    />
+                    {status}
+                    
                   </Grid>
                   <Grid item>
                     <Typography
@@ -122,11 +127,11 @@ class ChargingStation extends Component {
                       component="p"
                       style={{
                         fontSize: ".6em",
-                        color: this.props.station.available ? "#26d269" : "#cccccc",
+                        color: this.props.station.available ? "#26d269" : "#e83a30",
                         marginTop: "-3px"
                       }}
                     >
-                      {this.props.station.available ? 'Available' : 'Unavailable'}
+                      {this.props.station.available ? 'Available' : 'In Use'}
                     </Typography>
                   </Grid>
                 </Grid>

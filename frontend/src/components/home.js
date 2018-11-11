@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { Api, JsonRpc, RpcError, JsSignatureProvider } from 'eosjs'; // https://github.com/EOSIO/eosjs
+import { TextDecoder, TextEncoder } from 'text-encoding';
 
 import ChargingStations from "./chargingStations";
 import MapContainer from "./mapContainer";
@@ -7,6 +8,8 @@ import MapContainer from "./mapContainer";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+
+const endpoint = "http://localhost:8888";
 
 const styles = theme => ({
   root: {
@@ -20,7 +23,7 @@ const styles = theme => ({
     color: theme.palette.text.secondary
   },
   header: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 3,
     fontWeight: 800
   },
   map: {
@@ -39,8 +42,43 @@ class Home extends Component {
       localStations: []
     };
   }
+  getLocations() {
+    const rpc = new JsonRpc(endpoint);
+    rpc.get_table_rows({
+      "json": true,
+      "code": "locations",   // contract who owns the table
+      "scope": "locations",  // scope of the table
+      "table": "locations",    // name of the table as specified by the contract abi
+      "limit": 100,
+    // }).then(result => this.setState({ locations: result.rows }));
+  }).then(result => this.mapToLocations(result.rows));
+  }
+
+  getRandomTo(highNumber) {
+    return Math.floor((Math.random() * highNumber) + 1);
+  }
+
+  mapToLocations(rawLocations) {
+    console.log(rawLocations);
+    let localStations = rawLocations.map((location) => {
+      return {
+        id: location.key,
+        available: location.in_action,
+        lng: location.longitude,
+        lat: location.latitude,
+        name: location.name,
+        available: !!location.in_action,
+        kilowatts: Math.round(location.current_charge),
+        rating: this.getRandomTo(5),
+        image: `https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-${this.getRandomTo(4)}.jpg`,
+        chargerType: 'supercharger'
+      }
+    });
+    this.setState({ localStations })
+  }
 
   componentDidMount() {
+    this.getLocations();
     // navigator.geolocation.getCurrentPosition(
     //   (position) => {
     //     let lat = position.coords.latitude
@@ -61,98 +99,98 @@ class Home extends Component {
     // )
 
     // TODO: send get for close stations
-    this.setState({
-      location: {
-        lat: 37.782576,
-        lng: -122.4092642
-      },
-      localStations: [
-        {
-          id: 1,
-          name: "Bob's Garage Station",
-          lat: 37.778519,
-          lng: -122.415838,
-          available: true,
-          kilowatts: 125,
-          rating: 4,
-          chargerType: "supercharger",
-          image:
-            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-1.jpg"
-        },
-        {
-          id: 2,
-          name: "My Money Maker",
-          lat: 37.759703,
-          lng: -122.428093,
-          available: false,
-          kilowatts: 300,
-          rating: 2,
-          chargerType: "supercharger",
-          image:
-            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
-        },
-        {
-          id: 3,
-          name: "Charge It Stop",
-          lat: 37.759703,
-          lng: -122.428093,
-          available: true,
-          kilowatts: 300,
-          rating: 2,
-          chargerType: "supercharger",
-          image:
-            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
-        },
-        {
-          id: 4,
-          name: "The Hook Up",
-          lat: 37.759703,
-          lng: -122.428093,
-          available: false,
-          kilowatts: 300,
-          rating: 2,
-          chargerType: "J-1772",
-          image:
-            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
-        },
-        {
-          id: 5,
-          name: "High Volta",
-          lat: 37.759703,
-          lng: -122.428093,
-          available: true,
-          kilowatts: 300,
-          rating: 2,
-          chargerType: "wall",
-          image:
-            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
-        },
-        {
-          id: 6,
-          name: "Battery Up",
-          lat: 37.759703,
-          lng: -122.428093,
-          available: true,
-          kilowatts: 300,
-          rating: 2,
-          chargerType: "wall",
-          image:
-            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
-        },
-        {
-          id: 7,
-          name: "Chained To The Wall",
-          lat: 37.759703,
-          lng: -122.428093,
-          available: false,
-          kilowatts: 300,
-          rating: 2,
-          chargerType: "wall",
-          image:
-            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
-        }
-      ]
-    });
+    // this.setState({
+    //   location: {
+    //     lat: 37.782576,
+    //     lng: -122.4092642
+    //   },
+      // localStations: [
+      //   {
+      //     id: 1,
+      //     name: "Bob's Garage Station",
+      //     lat: 37.778519,
+      //     lng: -122.415838,
+      //     available: true,
+      //     kilowatts: 125,
+      //     rating: 4,
+      //     chargerType: "supercharger",
+      //     image:
+      //       "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-1.jpg"
+      //   },
+      //   {
+      //     id: 2,
+      //     name: "My Money Maker",
+      //     lat: 37.759703,
+      //     lng: -122.428093,
+      //     available: false,
+      //     kilowatts: 300,
+      //     rating: 2,
+      //     chargerType: "supercharger",
+      //     image:
+      //       "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+      //   },
+      //   {
+      //     id: 3,
+      //     name: "Charge It Stop",
+      //     lat: 37.759703,
+      //     lng: -122.428093,
+      //     available: true,
+      //     kilowatts: 300,
+      //     rating: 2,
+      //     chargerType: "supercharger",
+      //     image:
+      //       "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-3.jpg"
+      //   },
+      //   {
+      //     id: 4,
+      //     name: "The Hook Up",
+      //     lat: 37.759703,
+      //     lng: -122.428093,
+      //     available: false,
+      //     kilowatts: 300,
+      //     rating: 2,
+      //     chargerType: "J-1772",
+      //     image:
+      //       "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-4.jpg"
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "High Volta",
+      //     lat: 37.759703,
+      //     lng: -122.428093,
+      //     available: true,
+      //     kilowatts: 300,
+      //     rating: 2,
+      //     chargerType: "wall",
+      //     image:
+      //       "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-1.jpg"
+      //   },
+      //   {
+      //     id: 6,
+      //     name: "Battery Up",
+      //     lat: 37.759703,
+      //     lng: -122.428093,
+      //     available: true,
+      //     kilowatts: 300,
+      //     rating: 2,
+      //     chargerType: "wall",
+      //     image:
+      //       "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+      //   },
+      //   {
+      //     id: 7,
+      //     name: "Chained To The Wall",
+      //     lat: 37.759703,
+      //     lng: -122.428093,
+      //     available: false,
+      //     kilowatts: 300,
+      //     rating: 2,
+      //     chargerType: "wall",
+      //     image:
+      //       "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-3.jpg"
+      //   }
+      // ]
+    // });
   }
 
   render() {
@@ -165,7 +203,7 @@ class Home extends Component {
           <Grid container spacing={24}>
             <Grid item xs={8}>
               <Typography variant="title" className={classes.header}>
-                Charging stations near: {location.lat}, {location.lng}
+                Charging stations near you
               </Typography>
               <ChargingStations stations={localStations} />
             </Grid>
