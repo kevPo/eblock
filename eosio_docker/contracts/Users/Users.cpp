@@ -17,10 +17,21 @@ namespace eblock {
         });
     }
 
-    // ACTION pay(name payer, name receiver, double amount);
-    void Users::pay(name payer, name receiver, double amount) {
+    void Users::pay(name payer, name receiver, double token_amount) {
         require_auth(payer);
 
+        asset to_transfer = asset(token_amount, symbol(symbol_code("EBL"), 4));
+
+        action transfer = action(
+        permission_level{payer,"active"_n},
+        "eosio.token"_n,
+        "transfer"_n,
+        std::make_tuple(payer, receiver, to_transfer, "")
+        );
+
+        transfer.send();
+
         //TODO: execute token transactions
+        //cleos push action eosio.token transfer '[ "alice", "bob", "25.0000 SYS", "m" ]' -p alice@active
     }
 }

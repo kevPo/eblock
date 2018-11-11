@@ -1,4 +1,5 @@
 #include <eosiolib/eosio.hpp>
+#include <eosiolib/asset.hpp>
 
 namespace eblock {    
     using namespace eosio;
