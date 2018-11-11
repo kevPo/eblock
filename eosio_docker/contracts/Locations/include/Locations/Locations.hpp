@@ -26,7 +26,7 @@ namespace eblock {
                 uint64_t get_by_user() const { return owner.value; }
             };
 
-            ACTION add(name id, name owner, string name, double latitude, double longitude, string zip, double max_charge);
+            ACTION addloc(name id, name owner, string name, double latitude, double longitude, string zip, double max_charge);
 
             ACTION updatecharge(name owner, name location_id, double new_charge_amount);
 
@@ -42,5 +42,5 @@ namespace eblock {
             void pay_users(name payer, name receiver, double amount);
     };
 
-    EOSIO_DISPATCH(Locations, (add)(updatecharge)(inittrans)(endtrans))
+    EOSIO_DISPATCH(Locations, (addloc)(updatecharge)(inittrans)(endtrans))
 }

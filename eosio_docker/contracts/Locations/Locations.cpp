@@ -1,7 +1,7 @@
 #include <Locations/Locations.hpp>
 
 namespace eblock {
-    void Locations::add(name id, name owner, string name, double latitude, double longitude, string zip, double max_charge) {
+    void Locations::addloc(name id, name owner, string name, double latitude, double longitude, string zip, double max_charge) {
         require_auth(owner);
         location_table locations(_code, _code.value);
         

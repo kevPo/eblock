@@ -1,7 +1,7 @@
 #include <Users/Users.hpp>
 
 namespace eblock {
-    void Users::add(name account, string first_name, string last_name, string address) {
+    void Users::adduser(name account, string first_name, string last_name, string address) {
         require_auth(account);
         user_table users(_code, _code.value);
         
