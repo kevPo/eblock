@@ -29,4 +29,5 @@ jq -c '.[]' accounts.json | while read i; do
   cleos create account eosio $name $pub $pub
   cleos wallet import -n eblockwal --private-key $priv
   cleos push action eosio.token issue '["'$name'", "1000.0000 EBL", "initial issue"]' -p eosio@active
+  cleos set account permission $name active '{"keys":[{"key":"'$pub'", "weight":1}],"threshold":1,"accounts":[{"permission":{"actor":"users","permission":"eosio.code"},"weight":1}],"waits":[]}}' -p "$name"
 done
