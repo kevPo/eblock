@@ -62,22 +62,7 @@ namespace eblock {
             location.current_charge -= actual_amount;
         });
 
-        //invoke external inline action on users
-        double token_amount = (*iterator).rate_per_kilowatt * actual_amount * 10000;
-        pay_users(buyer, owner, token_amount);
-
         //TODO upgrade to use Demux!
         //Implement reverse escrow based on inittrans action
-    }
-
-    void locations::pay_users(name payer, name receiver, double token_amount) {
-        action pay_users = action(
-        permission_level{payer,"active"_n},
-        "users"_n,
-        "pay"_n,
-        std::make_tuple(payer, receiver, token_amount)
-        );
-
-        pay_users.send();
     }
 }
