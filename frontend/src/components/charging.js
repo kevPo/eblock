@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Api, JsonRpc, RpcError, JsSignatureProvider } from 'eosjs'; // https://github.com/EOSIO/eosjs
 import { TextDecoder, TextEncoder } from 'text-encoding';
+import Timer from "./timer";
+
 
 import { withStyles } from "@material-ui/core/styles";
 import "./charging.css"
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import EvStationIcon from "@material-ui/icons/EvStation";
+import BatteryCharging20 from "@material-ui/icons/BatteryCharging20";
 import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -26,13 +28,12 @@ const accounts = [
 ];
 
 const styles = theme => ({
-  card: {
-    maxWidth: 345
+  root: {
+    flexGrow: 1,
   },
-  media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
-  },
+  demo: {
+    height: 240,
+  }
 });
 
 class Charging extends Component {
@@ -46,27 +47,30 @@ class Charging extends Component {
     };
   }
 
-  async stopCharging(locationId) {
+  async stopCharging(location) {
     let user = accounts.find((account) => account.name === 'bob');
+    // let owner = accounts.find((account) => account.name === location.owner);
     let privateKey = user.privateKey;
 
     // eosjs function call: connect to the blockchain
     const rpc = new JsonRpc(endpoint);
     const signatureProvider = new JsSignatureProvider([privateKey]);
     const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
-    
+    console.log(location);
     try {
       const result = await api.transact({
         actions: [{
           account: "locations",
           name: 'endtrans',
           authorization: [{
-            actor: user.name,
+            actor: 'bob',
             permission: 'active',
           }],
           data: {
-            owner: user.name,
-            location_id: locationId,
+            owner: location.owner,
+            buyer: user.name,
+            location_id: location.key,
+            actual_amount: 20
           },
         }]
       }, {
@@ -124,34 +128,40 @@ class Charging extends Component {
     }
   }
 
+  setLocation(locationId) {
+    const rpc = new JsonRpc(endpoint);
+    rpc.get_table_rows({
+      "json": true,
+      "code": "locations",   // contract who owns the table
+      "scope": "locations",  // scope of the table
+      "table": "locations",    // name of the table as specified by the contract abi
+      "limit": 100,
+    }).then(result => this.setState({location: result.rows.find((location) => location.key === locationId)}));
+  }
+
   componentDidMount () {
-    // from the path `/inbox/messages/:id`
     var locationId = this.props.match.params.id;
-    this.setState({locationId});
+    this.setLocation(locationId)
     this.startTransaction(locationId);
   }
 
   render() {
     const { classes } = this.props;
-    // TODO: Get this data in the ledger
+    const { location } = this.state;
+    const battery = '';
 
     return (
-      <Grid container direction="column" justify="center" alignItems="center" flexGrow='1'>
-        <Grid item container justify="center" alignItems="flex-end">
-          <Grid item>
-            <EvStationIcon style={{fontSize: '9em'}} />
-          </Grid>
-          <Grid item>
-            <DirectionsCarIcon style={{fontSize: '15em'}} />
-          </Grid>
-          {/* <div class="battery">
-            <div class="liquid"></div>
-          </div> */}
+      <Grid container height="500" direction="column" justify="center" alignItems="center">
+        <Grid style={{paddingTop: '100px'}} item container justify="center" alignItems="flex-end">
+          <BatteryCharging20 style={{fontSize: '20em', color: '#30E877'}} />
         </Grid>
-        <Grid item>
-          <Button variant="outlined" size="medium" color="primary" onClick={this.stopCharging}>
+        <Grid item >
+          <Button variant="outlined" size="medium" color="primary" onClick={() => this.stopCharging(location)}>
             Stop Charging
           </Button>
+        </Grid>
+        <Grid item>
+          {/* <Timer /> */}
         </Grid>
       </Grid>
     );

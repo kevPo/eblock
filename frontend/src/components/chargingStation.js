@@ -127,7 +127,7 @@ class ChargingStation extends Component {
                       component="p"
                       style={{
                         fontSize: ".6em",
-                        color: this.props.station.available ? "#26d269" : "#e83a30",
+                        // color: this.props.station.available ? "#26d269" : "#e83a30",
                         marginTop: "-3px"
                       }}
                     >
