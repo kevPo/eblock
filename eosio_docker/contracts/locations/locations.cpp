@@ -17,6 +17,7 @@ namespace eblock {
             location.zip = zip;
             location.current_charge = 0;
             location.max_charge = max_charge;
+            location.rate_per_kilowatt = 0.1;
             location.in_use = false;
         });
     }
@@ -62,7 +63,7 @@ namespace eblock {
         });
 
         //invoke external inline action on users
-        double token_amount = (*iterator).rate_per_kilowatt * actual_amount;
+        double token_amount = (*iterator).rate_per_kilowatt * actual_amount * 10000;
         pay_users(buyer, owner, token_amount);
 
         //TODO upgrade to use Demux!
