@@ -25,7 +25,6 @@ jq -c '.[]' accounts.json | while read i; do
   pub=$(jq -r '.publicKey' <<< "$i")
   priv=$(jq -r '.privateKey' <<< "$i")
 
-  to simplify, we use the same key for owner and active key of each account
   cleos create account eosio $name $pub $pub
   cleos wallet import -n eblockwal --private-key $priv
   cleos push action eosio.token issue '["'$name'", "1000.0000 EBL", "initial issue"]' -p eosio@active
