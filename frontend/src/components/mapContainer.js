@@ -1,3 +1,4 @@
+/*global google*/
 import React, { Component } from 'react';
 import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
@@ -45,10 +46,19 @@ export class MapContainer extends Component {
         <Marker
           title={'The marker`s title will appear as a tooltip.'}
           name={'SOMA'}
-          position={{lat: 37.778519, lng: -122.405640}} />
+          position={{lat: 37.778519, lng: -122.405640}}
+          icon={{
+            url: "https://res.cloudinary.com/kevpo/image/upload/v1541922938/evfast.png",
+            anchor: new google.maps.Point(32,32),
+            scaledSize: new google.maps.Size(40,40)
+        }}/>
           <Marker
           name={'Dolores park'}
-          position={{lat: 37.759703, lng: -122.428093}} />
+          position={{lat: 37.759703, lng: -122.428093}} icon={{
+            url: "https://res.cloudinary.com/kevpo/image/upload/v1541922938/evfast.png",
+            anchor: new google.maps.Point(32,32),
+            scaledSize: new google.maps.Size(40,40)
+        }}/>
           <Marker />
       </CurrentLocation>
     );
