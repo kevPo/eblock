@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import Navbar from '../components/navbar';
-import ChargingStation from './chargingStation';
-import MapContainer from './mapContainer';
+import Navbar from "../components/navbar";
+import ChargingStations from "./chargingStations";
+import MapContainer from "./mapContainer";
 
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
@@ -18,68 +17,98 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+    textAlign: "center",
+    color: theme.palette.text.secondary
   },
   header: {
     padding: theme.spacing.unit * 2,
     fontWeight: 800
   },
   map: {
-    position: 'relative'
+    position: "relative"
   }
 });
 
 class Home extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       location: {
         lat: 0,
         lng: 0
-      }
+      },
+      localStations: []
     };
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let lat = position.coords.latitude
-        let lng = position.coords.longitude
-        console.log("getCurrentPosition Success " + lat + lng) // logs position correctly
-        this.setState({
-          location: {
-            lat: lat,
-            lng: lng
-          }
-        })
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => {
+    //     let lat = position.coords.latitude
+    //     let lng = position.coords.longitude
+    //     console.log("getCurrentPosition Success " + lat + lng) // logs position correctly
+    //     this.setState({
+    //       location: {
+    //         lat: lat,
+    //         lng: lng
+    //       }
+    //     })
+    //   },
+    //   (error) => {
+    //     // this.props.displayError("Error dectecting your location");
+    //     console.error(JSON.stringify(error))
+    //   },
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    // )
+
+    // TODO: send get for close stations
+    this.setState({
+      location: {
+        lat: 37.782576,
+        lng: -122.4092642
       },
-      (error) => {
-        // this.props.displayError("Error dectecting your location");
-        console.error(JSON.stringify(error))
-      },
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-    )
+      localStations: [
+        {
+          id: 1,
+          name: "Bob's Garage Station",
+          available: true,
+          kilowatts: 125,
+          rating: 4,
+          chargerType: "supercharger",
+          image:
+            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-1.jpg"
+        },
+        {
+          id: 2,
+          name: "My Money Maker",
+          available: false,
+          kilowatts: 300,
+          rating: 2,
+          chargerType: "supercharger",
+          image:
+            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+        }
+      ]
+    });
   }
 
   render() {
     const { classes } = this.props;
-    const { location } = this.state;
+    const { location, localStations } = this.state;
 
     return (
       <div>
         <Navbar />
         <div className={classes.root}>
           <Grid container spacing={24}>
-            <Grid item xs={8} >
+            <Grid item xs={8}>
               <Typography variant="title" className={classes.header}>
                 Charging stations near: {location.lat}, {location.lng}
               </Typography>
-              <ChargingStation />
+              <ChargingStations stations={localStations} />
             </Grid>
             <Grid item xs={4}>
-              <MapContainer className={classes.map}/>
+              <MapContainer className={classes.map} />
             </Grid>
           </Grid>
         </div>
