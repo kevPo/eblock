@@ -11,12 +11,15 @@ export class MapContainer extends Component {
     selectedPlace: {}
   };
 
-  onMarkerClick = (props, marker, e) =>
+  onMarkerClick = (props, marker, e) => {
+    console.log('boom');
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
     });
+  }
+    
 
   onClose = props => {
     if (this.state.showingInfoWindow) {
@@ -27,13 +30,26 @@ export class MapContainer extends Component {
     }
   };
 
-  render() {
+  render() {    
+    let markers = this.props.locations.map((location) => {
+      return <Marker
+          onClick={this.onMarkerClick}
+          title={location.name}
+          name={location.name}
+          position={{lat: location.lat, lng: location.lng}}
+          icon={{
+            url: "https://res.cloudinary.com/kevpo/image/upload/v1541931370/ev_charger.png",
+            anchor: new google.maps.Point(32,32),
+            scaledSize: new google.maps.Size(40,40)
+        }}/>
+    });
+
     return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        <Marker onClick={this.onMarkerClick} name={'Location Name'} />
+        <Marker onClick={this.onMarkerClick} name={'Current Location'} />
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
@@ -43,29 +59,12 @@ export class MapContainer extends Component {
             <h4>{this.state.selectedPlace.name}</h4>
           </div>
         </InfoWindow>
-        <Marker
-          title={'The marker`s title will appear as a tooltip.'}
-          name={'SOMA'}
-          position={{lat: 37.778519, lng: -122.405640}}
-          icon={{
-            url: "https://res.cloudinary.com/kevpo/image/upload/v1541922938/evfast.png",
-            anchor: new google.maps.Point(32,32),
-            scaledSize: new google.maps.Size(40,40)
-        }}/>
-          <Marker
-          name={'Dolores park'}
-          position={{lat: 37.759703, lng: -122.428093}} icon={{
-            url: "https://res.cloudinary.com/kevpo/image/upload/v1541922938/evfast.png",
-            anchor: new google.maps.Point(32,32),
-            scaledSize: new google.maps.Size(40,40)
-        }}/>
-          <Marker />
+        {markers}
       </CurrentLocation>
     );
   }
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyAnHfFqtmvHP0s7AT67brFz9lNVTR-DzPs'
-  // apiKey: 'xxxx'
+  apiKey: 'xxxx'
 })(MapContainer);

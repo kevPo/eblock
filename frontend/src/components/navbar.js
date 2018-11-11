@@ -33,7 +33,7 @@ function Navbar(props) {
             <MenuIcon />
           </IconButton> */}
           <Typography variant="title" color="inherit" className={classes.grow}>
-            EBlock
+            eBlock
           </Typography>
           {/* <Button color="inherit">Login</Button> */}
         </Toolbar>

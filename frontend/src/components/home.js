@@ -71,6 +71,8 @@ class Home extends Component {
         {
           id: 1,
           name: "Bob's Garage Station",
+          lat: 37.778519,
+          lng: -122.415838,
           available: true,
           kilowatts: 125,
           rating: 4,
@@ -81,6 +83,8 @@ class Home extends Component {
         {
           id: 2,
           name: "My Money Maker",
+          lat: 37.759703,
+          lng: -122.428093,
           available: false,
           kilowatts: 300,
           rating: 2,
@@ -108,7 +112,7 @@ class Home extends Component {
               <ChargingStations stations={localStations} />
             </Grid>
             <Grid item xs={4}>
-              <MapContainer className={classes.map} />
+              <MapContainer locations={localStations} className={classes.map} />
             </Grid>
           </Grid>
         </div>

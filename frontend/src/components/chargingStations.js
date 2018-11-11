@@ -21,7 +21,7 @@ class ChargingStations extends Component {
         alignItems="stretch"
         spacing={24}
       >
-        {this.props.stations.map((item, index) => {
+        {this.props.stations.map((item) => {
           return (
             <Grid item xs={4}>
               <ChargingStation station={item} />
