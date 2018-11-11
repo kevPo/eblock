@@ -38,9 +38,9 @@ export class MapContainer extends Component {
           name={location.name}
           position={{lat: location.lat, lng: location.lng}}
           icon={{
-            url: "https://res.cloudinary.com/kevpo/image/upload/v1541931370/ev_charger.png",
-            anchor: new google.maps.Point(30,30),
-            scaledSize: new google.maps.Size(30,30)
+            url: "https://res.cloudinary.com/kevpo/image/upload/v1541936535/circle_ibcdxf.png",
+            anchor: new google.maps.Point(40,40),
+            scaledSize: new google.maps.Size(40,40)
         }}/>
     });
 
@@ -66,6 +66,5 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyAnHfFqtmvHP0s7AT67brFz9lNVTR-DzPs'
-  // apiKey: 'xxxx'
+  apiKey: 'xxxx'
 })(MapContainer);

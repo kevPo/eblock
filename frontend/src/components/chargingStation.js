@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Redirect } from 'react-router'
 
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -44,15 +45,21 @@ class ChargingStation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: {
-        lat: 0,
-        lng: 0
-      }
+      charging: false
     };
+  }
+
+  plugIn() {
+    // this.props.router.push(`/something/${this.props.station.id}`)
+    // browserHistory.push(`/charging/${this.props.station.id}`);
+    console.log(this.props.history)
   }
 
   render() {
     const { classes } = this.props;
+    const { charging } = this.state
+    // TODO: Get this data in the ledger
+    let activityStatus = this.props.station.available ? 'Available for the last 4 hours' : 'Unavailable for the last 2 hours'
     let stars = [];
     let emptyStars = [];
 
@@ -62,6 +69,10 @@ class ChargingStation extends Component {
 
     for (var i=0; i<5 - this.props.station.rating; i++) {
       emptyStars.push(<StarBorderIcon className={classes.rating} />);
+    }
+
+    if (charging) {
+      return <Redirect to={`/charging/${this.props.station.id}`} push={true} />
     }
 
     return (
@@ -92,6 +103,9 @@ class ChargingStation extends Component {
                   {stars}
                   {emptyStars}
                 </div>
+                <Typography className={classes.smallHeading} style={{ width: '75%', color: this.props.station.available ? "" : "#e83a30"}} component="p">
+                  {activityStatus}
+                </Typography>
               </Grid>
               <Grid item xs={2} container justify="flex-end">
                 <Grid item container alignItems="center" direction="column">
@@ -120,21 +134,12 @@ class ChargingStation extends Component {
             </Grid>
           </CardContent>
           <CardActions>
-            <Grid container justify="center">
-              <Grid item>
-                {this.props.station.available ? (
-                  <Button variant="contained" size="medium" color="primary">
-                    Plug In Now
-                  </Button>
-                ) : (
-                  <Typography className={classes.smallHeading} component="p">
-                    Unavailable for the last 4 hours
-                  </Typography>
-                )}
-              </Grid>
-            </Grid>
-            
-            
+            <Button variant="outlined" size="medium" color="primary" onClick={() => this.setState({ charging: true })} disabled={!this.props.station.available}>
+              Plug In Now
+            </Button>
+            <Button>
+              Read More
+            </Button>
             
             {/* <Button size="small" color="primary">
               Learn More

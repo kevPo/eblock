@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import Navbar from "../components/navbar";
 import ChargingStations from "./chargingStations";
 import MapContainer from "./mapContainer";
 
@@ -25,7 +24,7 @@ const styles = theme => ({
     fontWeight: 800
   },
   map: {
-    position: "relative"
+    position: "static"
   }
 });
 
@@ -91,6 +90,66 @@ class Home extends Component {
           chargerType: "supercharger",
           image:
             "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+        },
+        {
+          id: 3,
+          name: "Charge It Stop",
+          lat: 37.759703,
+          lng: -122.428093,
+          available: true,
+          kilowatts: 300,
+          rating: 2,
+          chargerType: "supercharger",
+          image:
+            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+        },
+        {
+          id: 4,
+          name: "The Hook Up",
+          lat: 37.759703,
+          lng: -122.428093,
+          available: false,
+          kilowatts: 300,
+          rating: 2,
+          chargerType: "J-1772",
+          image:
+            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+        },
+        {
+          id: 5,
+          name: "High Volta",
+          lat: 37.759703,
+          lng: -122.428093,
+          available: true,
+          kilowatts: 300,
+          rating: 2,
+          chargerType: "wall",
+          image:
+            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+        },
+        {
+          id: 6,
+          name: "Battery Up",
+          lat: 37.759703,
+          lng: -122.428093,
+          available: true,
+          kilowatts: 300,
+          rating: 2,
+          chargerType: "wall",
+          image:
+            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
+        },
+        {
+          id: 7,
+          name: "Chained To The Wall",
+          lat: 37.759703,
+          lng: -122.428093,
+          available: false,
+          kilowatts: 300,
+          rating: 2,
+          chargerType: "wall",
+          image:
+            "https://res.cloudinary.com/kevpo/image/upload/v1541903996/house-2.jpg"
         }
       ]
     });
@@ -102,7 +161,6 @@ class Home extends Component {
 
     return (
       <div>
-        <Navbar />
         <div className={classes.root}>
           <Grid container spacing={24}>
             <Grid item xs={8}>
@@ -111,7 +169,7 @@ class Home extends Component {
               </Typography>
               <ChargingStations stations={localStations} />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={4} position="relative">
               <MapContainer locations={localStations} className={classes.map} />
             </Grid>
           </Grid>

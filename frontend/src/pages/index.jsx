@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom'
 
 import Home from '../components/home';
+import Charging from '../components/charging';
+import Navbar from '../components/navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // material-ui dependencies
 import { withStyles } from '@material-ui/core/styles';
@@ -177,10 +179,11 @@ class Index extends Component {
 
     return (
       <MuiThemeProvider theme={theme}>
+        <Navbar />
         <Router>
           <div>
             <Route exact path="/" component={Home}/>
-            {/* <Route path="/home" component={Home}/> */}
+            <Route path="/charging/:id" component={Charging}/>
           </div>
         </Router>
       </MuiThemeProvider>
