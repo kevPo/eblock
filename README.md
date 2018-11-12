@@ -1,3 +1,18 @@
+# Excella Overview 
+We used the simple boilerplate repo provided by EOSIO for the SF Hackathon November 10-11, 2018. We coded for 38 hours straight so take it as it is.  
+
+How to run and/or develop for this repo.
+- clone the repo
+- Execute the following
+    - `%> ./quick_start.sh`
+    - `%> ./docker exec -it eblock_container bash`
+        - `bash%> ./scripts/seed_data.sh`
+        - `bash%>` Manually execute each line in the ./scripts/set_account_perms.sh
+            - Never found the reason set_account_perms.sh appears to work but doesn't (maybe incorrect wallet?)
+- If your docker container is not functioning correct feel free to remove it (`%> docker rm -f eblock_container`) 
+
+Below is the original README.md from EOSIO
+
 # Overview
 NoteChain demonstrates the eosio platform running a blockchain as a local single node test net with a simple DApp, NoteChain. NoteChain allows users to create and update notes. This guide uses scripts, containing relevant commands, which will show you how to install, build and run NoteChain, and by doing so will demonstrate:
 
