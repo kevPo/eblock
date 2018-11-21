@@ -1,0 +1,30 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+ .logo {
+  color: #1f7e6d;
+  font-weight: 300;
+  font-size: 5em;
+  font-weight: 800;
+}
+ .image-container {
+  height: 100vh;
+  background-image: url('../images/nolimits.jpg');
+  background-size: cover;
+}
+ button {
+  background-color: #1f7e6d;
+  /* background-color: #F3A1F7; */
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 1em;
+  margin-top: 10px;
+  text-transform: uppercase;
+  width: 250px;
+}
+ button:hover {
+  cursor: pointer;
+} 

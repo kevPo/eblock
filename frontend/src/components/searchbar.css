@@ -1,0 +1,25 @@
+.location-search-input {
+  border-radius: 3px;
+  border: none;
+  color: #15251d;
+  font-size: 1.15em;
+  font-weight: 400;
+  padding: .85em;
+  width: 400px;
+}
+ .suggestion-item,
+.suggestion-item--active {
+  font-size:1.15em;
+  padding: .75em;
+  width: 400px;
+}
+ .autocomplete-dropdown-container {
+  background: white;
+  width: 400px;
+}
+ .location-label {
+  color: #1f7e6d;
+  font-size: 1.25em;
+  font-weight: 500;
+  margin-bottom: 5px;
+} 

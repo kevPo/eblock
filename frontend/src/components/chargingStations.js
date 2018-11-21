@@ -23,7 +23,7 @@ class ChargingStations extends Component {
       >
         {this.props.stations.map((item) => {
           return (
-            <Grid item xs={4}>
+            <Grid item xs={4} xl={3}>
               <ChargingStation station={item} />
             </Grid>
           );

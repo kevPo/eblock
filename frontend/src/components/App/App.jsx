@@ -6,33 +6,35 @@ import {
   Route
 } from 'react-router-dom'
 
-import { UserAction } from 'actions';
-import { ApiService } from 'services';
-import Home from './home';
-import Results from './results';
-import Charging from '../components/charging';
-import Receipts from '../components/receipts';
-import Navbar from '../components/navbar';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Login  from '../Login';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      // light: will be calculated from palette.primary.main,
-      main: '#e83a30',
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
-    },
-    secondary: {
-      light: '#0066ff',
-      main: '#0044ff',
-      // dark: will be calculated from palette.secondary.main,
-      contrastText: '#ffcc00',
-    },
-    // error: will use the default color
-  },
-});
-class Index extends Component {
+import { UserAction } from '../../actions';
+import { ApiService } from '../../services';
+import Home from '../../pages/home';
+// import Results from './results';
+// import Charging from '../components/charging';
+// import Receipts from '../components/receipts';
+// import Navbar from '../components/navbar';
+// import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: {
+//       // light: will be calculated from palette.primary.main,
+//       main: '#e83a30',
+//       // dark: will be calculated from palette.primary.main,
+//       // contrastText: will be calculated to contrast with palette.primary.main
+//     },
+//     secondary: {
+//       light: '#0066ff',
+//       main: '#0044ff',
+//       // dark: will be calculated from palette.secondary.main,
+//       contrastText: '#ffcc00',
+//     },
+//     // error: will use the default color
+//   },
+// });
+class App extends Component {
 
   constructor(props) {
     super(props);
@@ -116,4 +118,4 @@ const mapDispatchToProps = {
 };
 
 // Export a redux connected component
-export default connect(mapStateToProps, mapDispatchToProps)(Index);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -138,18 +138,14 @@ class ChargingStation extends Component {
               </Grid>
             </Grid>
           </CardContent>
-          <CardActions>
+          {/* <CardActions>
             <Button variant="outlined" size="medium" color="primary" onClick={() => this.setState({ charging: true })} disabled={!this.props.station.available}>
               Plug In Now
             </Button>
             <Button>
               Read More
             </Button>
-            
-            {/* <Button size="small" color="primary">
-              Learn More
-            </Button> */}
-          </CardActions>
+          </CardActions> */}
         </Card>
       </div>
     );

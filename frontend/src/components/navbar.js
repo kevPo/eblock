@@ -33,7 +33,7 @@ function Navbar(props) {
             <MenuIcon />
           </IconButton> */}
           <Typography variant="title" color="inherit" className={classes.grow}>
-            eBlock
+            Blip
           </Typography>
           {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
@@ -47,29 +47,3 @@ Navbar.propTypes = {
 };
 
 export default withStyles(styles)(Navbar);
-
-// import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
-
-// class Navbar extends Component {
-//   render() {
-//     return (
-//     <AppBar position="static" color="default">
-//       <Toolbar>
-//         <Typography variant="title" color="inherit">
-//             The winning app
-//         </Typography>
-//       </Toolbar>
-//     </AppBar>
-//       <nav>
-//         <ul className="container">
-//           <li><Link to="/">Home</Link></li>
-//           <li><Link to="/addCountry">Add Country</Link></li>
-//           <li><Link to="/addState">Add State</Link></li>
-//         </ul>
-//       </nav>
-//     );
-//   }
-// }
-
-// export default Navbar;

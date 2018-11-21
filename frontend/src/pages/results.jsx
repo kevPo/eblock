@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Api, JsonRpc, RpcError, JsSignatureProvider } from 'eosjs'; // https://github.com/EOSIO/eosjs
 
-import ChargingStations from "./chargingStations";
-import MapContainer from "./mapContainer";
+import ChargingStations from "../components/chargingStations";
+import MapContainer from "../components/mapContainer";
 
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -30,7 +30,7 @@ const styles = theme => ({
   }
 });
 
-class Home extends Component {
+class Results extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -203,13 +203,13 @@ class Home extends Component {
           <Grid container spacing={24}>
             <Grid item xs={8}>
               <Typography variant="title" className={classes.header}>
-                Charging stations near you
+                Charging stations for you
               </Typography>
               <ChargingStations stations={localStations} />
             </Grid>
-            <Grid item xs={4} position="relative">
+            {/* <Grid item xs={4} position="relative">
               <MapContainer locations={localStations} className={classes.map} />
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
       </div>
@@ -217,4 +217,4 @@ class Home extends Component {
   }
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(Results);
